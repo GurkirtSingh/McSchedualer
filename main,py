@@ -1,5 +1,6 @@
 import base64
-import quickstart
+import gmailAPI
+import calendarAPI
 import re
 ## file - main.py
 ## description - This is startup file for mcscheduler. which will
@@ -22,20 +23,22 @@ def parseShiftsFromMessage(message: str):
             shift.group(5)+
             shift.group(6))
 
-## step 1 - Login to Gmail
+def decodeMessage():
+    base64_message = gmailAPI.gmailAccess()
 
+    # decoding message from base64 to ascii
+    base64_bytes = base64_message.encode('ascii')
+    message_bytes = base64.urlsafe_b64decode(base64_bytes)
+    return message_bytes.decode('ascii', errors='ignore')
+
+## step 1 - Login to Gmail
 ## step 2 - store the crediantial for future use
 ## step 3 - Read the latest email sent by mcd13687@ext.mcdonalds.com ( is uniqe by the restorent)
-base64_message = quickstart.gmailAPI()
-
-# decoding message from base64 to ascii
-base64_bytes = base64_message.encode('ascii')
-message_bytes = base64.urlsafe_b64decode(base64_bytes)
-message = message_bytes.decode('ascii', errors='ignore')
 ## step 4 - confirm the Subjact of email is 'Your next week's schedule'
 ## step 5 - parse the events (shifts) with date, time and position
-parseShiftsFromMessage(message)
+parseShiftsFromMessage(decodeMessage())
 ## step 6 - Access the calender with same email
+#calendarAPI.CalendarAccess()
 ## step 7 - creaet new events in the calender from the parsed events
 ## Success
 
