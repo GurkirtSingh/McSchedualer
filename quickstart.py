@@ -1,4 +1,5 @@
 from __future__ import print_function
+from http import server
 import os.path
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -32,9 +33,11 @@ def gmailAPI():
 
     service = build('gmail', 'v1', credentials=creds)
 
-
+    # query the new schedule message
+    latestMessageList = service.users().messages().list(userId='me', maxResults=1, q='mcd13687@ext.mcdonalds.com').execute()
+    messageID = latestMessageList['messages'][0]['id']
     # get the email with id
-    message = service.users().messages().get(userId='me', id='17ce38e8c1d9aec4', format='raw').execute()
+    message = service.users().messages().get(userId='me', id=messageID, format='raw').execute()
 
     if not message:
         print('no message found')
