@@ -34,6 +34,8 @@ def CalendarAccess():
 
     service = build('calendar', 'v3', credentials=creds)
 
+    return service
+
     # Call the Calendar API
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
     print('Getting the upcoming 10 events')
@@ -47,3 +49,22 @@ def CalendarAccess():
     for event in events:
         start = event['start'].get('dateTime', event['start'].get('date'))
         print(start, event['summary'])
+
+# create the calender event
+def CreateEvent(summary, start, end):
+    service = CalendarAccess()
+
+    print('creating shift events in calendar')
+    event = {
+        'summary' : summary,
+        'start' : {
+            'dateTime' : start,
+            'timeZone' : 'America/Vancouver'
+        },
+        'end' : {
+            'dateTime' : end,
+            'timeZone' : 'America/Vancouver'
+        }
+    }
+    event = service.events().insert(calendarId='primary', body=event).execute()
+    print ('Event created: %s' % (event.get('htmlLink')))
