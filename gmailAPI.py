@@ -8,7 +8,7 @@ from google.oauth2.credentials import Credentials
 
 # If modifying these scopes, delete the file token.json.
 import constant
-SCOPES = constant.SCOPES8
+SCOPES = constant.SCOPES
 
 def gmailAccess():
     """Shows basic usage of the Gmail API.
