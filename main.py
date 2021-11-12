@@ -48,13 +48,24 @@ def decodeMessage():
 ## step 2 - store the crediantial for future use
 ## step 3 - Read the latest email sent by mcd13687@ext.mcdonalds.com ( is uniqe by the restorent)
 ## step 4 - confirm the Subjact of email is 'Your next week's schedule'
+        #### above steps are done in 'gmailAPI.py'
+
 ## step 5 - parse the events (shifts) with date, time and position
 shifts = parseShiftsFromMessage(decodeMessage())
+
 ## step 6 - Access the calender with same email
-for s in shifts:
-    print(s)
-    calendarAPI.CreateEvent("Mcdonald's",s['startDate'], s['endDate'])
-## step 7 - creaet new events in the calender from the parsed events
+        ### refer to 'calendarAPI.py'
+try:
+    print('Inserting shifts in the calender')
+    ## step 7 - creaet new events in the calender from the parsed events
+    numEvents = 0
+    for s in shifts:
+        calendarAPI.CreateEvent("Mcdonald's",s['startDate'], s['endDate'])
+        numEvents += 1
+    print('Successfully inserted %d events', numEvents)
+except:
+    print('Somthing went wrong')
+
 ## Success
 
 ## Subscribe to the gmail's new eamil event for seamless performance
