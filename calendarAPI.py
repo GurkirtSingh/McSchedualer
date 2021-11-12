@@ -53,8 +53,6 @@ def CalendarAccess():
 # create the calender event
 def CreateEvent(summary, start, end):
     service = CalendarAccess()
-
-    print('creating shift events in calendar')
     event = {
         'summary' : summary,
         'start' : {
@@ -67,4 +65,3 @@ def CreateEvent(summary, start, end):
         }
     }
     event = service.events().insert(calendarId='primary', body=event).execute()
-    print ('Event created: %s' % (event.get('htmlLink')))
